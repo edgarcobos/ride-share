@@ -5,7 +5,8 @@ DELIMITER //
 CREATE PROCEDURE takeRide(IN ride_id_in INT, IN user_id_in VARCHAR(50))
 BEGIN
 UPDATE rides
-    SET passenger_user=user_id_in AND taken=1
+    SET passenger_user=user_id_in,
+    	taken=1
     WHERE ride_id=ride_id_in;
     SELECT * FROM rides WHERE ride_id=ride_id_in;
 END//
