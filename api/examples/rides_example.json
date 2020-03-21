@@ -1,0 +1,28 @@
+{
+    "rides": [
+        {
+          "ride_id": "1",
+          "time_of_ride": "Thu, Feb 20 at 7:00",
+          "to_location": "Regent Mall",
+          "from_location": "Neill House",
+          "car_model": "Honda Civic",
+          "license_plate": "ABC123",
+          "passenger_user": "ecobos",
+          "driver_user": "jho",
+          "taken": true,
+          "uri": "info3103.cs.unb.ca/users/jho/rides/1"
+        },
+        {
+          "ride_id": "2",
+          "time_of_ride": "Fri, Feb 21 at 7:30",
+          "to_location": "Lunar Rogue Pub",
+          "from_location": "580 Montgomery St",
+          "car_model": "Hyundai Accent",
+          "license_plate": "XYZ123",
+          "passenger_user": "",
+          "driver_user": "ssanchez",
+          "taken": false,
+          "uri": "info3103.cs.unb.ca/users/ssanchez/rides/2"
+        }
+    ]
+}

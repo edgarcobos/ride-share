@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "user_id": "ecobos",
+      "first_name": "Edgar",
+      "last_name": "Cobos",
+      "uri": "info3103.cs.unb.ca/users/edgarcobos"
+    },
+    {
+      "user_id": "jho",
+      "first_name": "Jason",
+      "last_name": "Ho",
+      "uri": "info3103.cs.unb.ca/users/jho"
+    }
+  ]
+}

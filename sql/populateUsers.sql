@@ -1,0 +1,10 @@
+INSERT INTO users VALUES('obbjn', 'Ousman', 'Beebeejaun');
+INSERT INTO users VALUES('ecobos', 'Edgar', 'Cobos');
+INSERT INTO users VALUES('ahelal', 'Ahmed', 'Helal');
+INSERT INTO users VALUES('jho', 'Jason', 'Ho');
+INSERT INTO users VALUES('apena', 'Alejandra', 'Pena');
+INSERT INTO users VALUES('vpena', 'Victoria', 'Pena');
+INSERT INTO users VALUES('krmsm', 'Kevish', 'Ramasawmy');
+INSERT INTO users VALUES('brogerso', 'Braden', 'Rogerson');
+INSERT INTO users VALUES('ssanchez', 'Santiago', 'Sanchez');
+INSERT INTO users VALUES('kyan', 'Kenny', 'Yan');

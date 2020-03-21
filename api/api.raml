@@ -1,0 +1,338 @@
+#%RAML 1.0
+title: Ride-share API
+version: v0.1
+baseUri: http://info3103.cs.unb.ca:40765
+types:
+  uri:
+    type: string
+    required: true
+  user:
+    type: object
+    properties:
+      user_id:
+        type: string
+        required: true
+      first_name:
+        type: string
+        required: true
+      last_name:
+        type: string
+        required: true
+      uri: uri
+    example: !include examples/user_example.json
+  user_response:
+    type: object
+    properties:
+      user: user
+    example: !include examples/user_response_example.json
+  users:
+    type: object
+    properties:
+      users:
+        type: user[]
+        required: false
+    example: !include examples/users_example.json
+  account:
+    type: object
+    properties:
+      first_name: string
+      last_name: string
+      username: string
+      password: string
+    example: !include examples/account_example.json
+  ride:
+    type: object
+    properties:
+      ride_id: string
+      time_of_ride: string
+      to_location: string
+      from_location: string
+      car_model: string
+      license_plate: string
+      passenger_user: string
+      driver_user: string
+      price:
+        type: number
+        required: false
+      taken: boolean
+      uri: uri
+    example: !include examples/ride_example.json
+  ride_response:
+    type: object
+    properties:
+      ride: ride
+    example: !include examples/ride_response_example.json
+  rides:
+    type: object
+    properties:
+      rides: ride[]
+    example: !include examples/rides_example.json
+  credentials:
+    type: object
+    properties:
+      username: string
+      password: string
+    example: |
+      {
+        "username": "edgarcobos",
+        "password": "password"
+      }
+
+/signin:
+  get:
+    description: Check if a user is logged in.
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "OK"
+              }
+      403:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "Forbidden"
+              }
+  post:
+    description: Start a user session.
+    body:
+      application/json:
+        type: credentials
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "OK"
+              }
+      201:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "Created"
+              }
+      403:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "Access denied"
+              }
+  delete:
+    description: Remove a user session.
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "OK"
+              }
+
+/users:
+  get:
+    description: Get a list of all users.
+    responses:
+      200:
+        body:
+          application/json:
+            type: users
+  post:
+    description: Add a new user.
+    body:
+      application/json:
+        type: account
+    responses:
+      201:
+        body:
+          application/json:
+            type: user_response
+      409:
+         body:
+           applciation/json:
+             example: |
+               {
+                "status": "Username already taken"
+               }
+  /{user_id}:
+    get:
+      description: Get a particular user.
+      queryParameters:
+        access_token:
+          displayName: Access Token
+          type: string
+          description: Token giving user permission to make call
+          required: true
+      responses:
+        200:
+          body:
+            application/json:
+              type: user_response
+        401:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": "Unauthorized"
+                }
+        404:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": "Not found"
+                }
+    put:
+      description: Update a particular user account.
+      queryParameters:
+        access_token:
+          displayName: Access Token
+          description: Token giving user permission to make call
+          type: string
+          required: true
+      body:
+        application/json:
+          type: user
+      responses:
+        200:
+          body:
+            application/json:
+              type: user_response
+        401:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": "Unauthorized"
+                }
+    delete:
+      description: Remove a particular user
+      queryParameters:
+        access_token:
+          displayName: Access Token
+          description: Token giving user permission to make call
+          type: string
+          required: true
+      responses:
+        204:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": "Success"
+                }
+        401:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": "Unauthorized"
+                }
+    /rides:
+      get:
+        description: Get all rides from a particular user.
+        queryParameters:
+          posted:
+            description: Flag specifying whether the user posted or requested the rides
+            type: boolean
+            required: false
+        responses:
+          200:
+            body:
+              application/json:
+                type: rides
+          404:
+            body:
+              application/json:
+                example: |
+                  {
+                    "status": "Not found"
+                  }
+      post:
+        description: Add a new ride resource for a particular user.
+        queryParameters:
+          access_token:
+            displayName: Access Token
+            description: Token giving user permission to make call
+            type: string
+            required: true
+        body:
+          application/json:
+            type: ride
+        responses:
+          200:
+            body:
+              application/json:
+                type: ride_response
+          401:
+            body:
+              application/json:
+                example: |
+                  {
+                    "status": "Unauthorized"
+                  }
+      /{ride_id}:
+        get:
+          description: Get a particular ride resource from a particular user.
+          responses:
+            200:
+              body:
+                application/json:
+                  type: ride_response
+            404:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "status": "Not found"
+                    }
+        put:
+          description: Update a particular ride resource.
+          queryParameters:
+            access_token:
+              displayName: Access Token
+              description: Token giving user permission to make call
+              type: string
+              required: true
+          body:
+            application/json:
+              type: ride
+          responses:
+            203:
+              body:
+                application/json:
+                  type: ride_response
+            401:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "status": "Unauthorized"
+                    }
+        delete:
+          description: Remove a particular ride resource.
+          queryParameters:
+            access_token:
+              displayName: Access Token
+              description: Token giving user permission to make call
+              type: string
+              required: true
+          responses:
+            204:
+              body:
+                application/json: |
+                  {
+                    "status": "Success"
+                  }
+            401:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "status": "Unauthorized"
+                    }
