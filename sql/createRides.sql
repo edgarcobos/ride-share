@@ -11,6 +11,6 @@ CREATE TABLE rides(
     price DECIMAL(50),
     taken BOOLEAN DEFAULT 0,
     PRIMARY KEY (ride_id),
-    FOREIGN KEY (passenger_user) REFERENCES Users(user_id),
-    FOREIGN KEY (driver_user) REFERENCES Users(user_id)
+    FOREIGN KEY (passenger_user) REFERENCES users(user_id),
+    FOREIGN KEY (driver_user) REFERENCES users(user_id)
 );
