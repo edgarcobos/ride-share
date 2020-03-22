@@ -1,5 +1,5 @@
 DELIMITER //
-DROP PROCEDURE IF EXISTS getTakenRides //
+DROP PROCEDURE IF EXISTS getPassengerRides //
 
 CREATE PROCEDURE getPassengerRides(IN user_id_in VARCHAR(50))
 BEGIN
@@ -8,7 +8,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS getOfferedRides //
+DROP PROCEDURE IF EXISTS getDriverRides //
 
 CREATE PROCEDURE getDriverRides(IN user_id_in VARCHAR(50))
 BEGIN
