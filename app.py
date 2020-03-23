@@ -224,6 +224,26 @@ class User(Resource):
 
 		return make_response(jsonify(response), responseCode)
 
+####################################################################################
+#
+# RidesOffered
+#
+class RidesOffered(Resource):
+
+	@use_db
+	def post(self, cursor):
+		if not request.json:
+			abort(400)
+
+		parser = reqparse.RequestParser()
+		try:
+			parser.add_argument('first_name', type=str, required=True)
+			parser.add_argument('last_name', type=str, required=True)
+			parser.add_argument('username', type=str, required=True)
+			parser.add_argument('password', type=str, required=True)
+			request_params = parser.parse_args()
+		except:
+			abort(400)
 
 ####################################################################################
 #

@@ -1,17 +1,26 @@
 DELIMITER //
-DROP PROCEDURE IF EXISTS getPassengerRides //
+DROP PROCEDURE IF EXISTS getOfferedRides //
 
-CREATE PROCEDURE getPassengerRides(IN user_id_in VARCHAR(50))
+CREATE PROCEDURE getOfferedRides()
 BEGIN
-  SELECT * FROM rides WHERE passenger_user=user_id_in;
+  SELECT * FROM rideOffered;
 END //
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS getDriverRides //
+DROP PROCEDURE IF EXISTS getOfferedRidesByUser //
 
-CREATE PROCEDURE getDriverRides(IN user_id_in VARCHAR(50))
+CREATE PROCEDURE getOfferedRidesByUser(IN driver_id_in VARCHAR(50))
 BEGIN
-  SELECT * FROM rides WHERE driver_user=user_id_in;
+  SELECT * FROM rideOffered WHERE driver_id=driver_id_in;
+END //
+DELIMITER ;
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS getOfferedRidesByID //
+
+CREATE PROCEDURE getOfferedRidesByID(IN ride_id_in INT)
+BEGIN
+  SELECT * FROM rideOffered WHERE ride_id=ride_id_in;
 END //
 DELIMITER ;
