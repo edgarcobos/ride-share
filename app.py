@@ -219,24 +219,76 @@ class User(Resource):
 
 ####################################################################################
 #
+# AllRidesOffered
+#
+class AllRidesOffered(Resource):
+
+	@use_db
+	def get(self, cursor):
+		cursor.callproc('getOfferedRides')
+		rides = cursor.fetchall() or []
+		return make_response(jsonify({ 'rides': rides }), 200)
+
+####################################################################################
+#
+# AllRidesOfferedID
+#
+class AllRidesOfferedID(Resource):
+
+	@use_db
+	def get(self, ride_id, cursor):
+		cursor.callproc('getOfferedRidesByID', (ride_id,))
+		rides = cursor.fetchall() or []
+		return make_response(jsonify({ 'rides': rides }), 200)
+
+####################################################################################
+#
 # RidesOffered
 #
 class RidesOffered(Resource):
 
 	@use_db
-	def post(self, cursor):
-		if not request.json:
-			abort(400)
+	def get(self, user_id, cursor):
+		cursor.callproc('getOfferedRidesByUser', (user_id,))
+		rides = cursor.fetchall() or []
+		return make_response(jsonify({ 'rides': rides }), 200)
 
-		parser = reqparse.RequestParser()
-		try:
-			parser.add_argument('first_name', type=str, required=True)
-			parser.add_argument('last_name', type=str, required=True)
-			parser.add_argument('username', type=str, required=True)
-			parser.add_argument('password', type=str, required=True)
-			request_params = parser.parse_args()
-		except:
-			abort(400)
+####################################################################################
+#
+# RideOffered
+#
+class RideOffered(Resource):
+
+	@use_db
+	def get(self, ride_id, user_id, cursor):
+		cursor.callproc('getOfferedRidesByIDAndDriver', (ride_id, user_id))
+		rides = cursor.fetchall() or []
+		return make_response(jsonify({ 'rides': rides }), 200)
+
+####################################################################################
+#
+# RidesTaken
+#
+class RidesTaken(Resource):
+
+	@use_db
+	def get(self, user_id, cursor):
+		cursor.callproc('getTakenRides', (user_id,))
+		rides = cursor.fetchall() or []
+		return make_response(jsonify({ 'rides': rides }), 200)
+
+####################################################################################
+#
+# RideTaken
+#
+class RideTaken(Resource):
+
+	@use_db
+	def get(self, user_id, ride_id, cursor):
+		cursor.callproc('getTakenRidesByID', (user_id, ride_id))
+		rides = cursor.fetchall() or []
+		return make_response(jsonify({ 'rides': rides }), 200)
+
 
 ####################################################################################
 #
@@ -246,6 +298,12 @@ api = Api(app)
 api.add_resource(SignIn, '/signin')
 api.add_resource(Users, '/users')
 api.add_resource(User, '/users/<string:user_id>')
+api.add_resource(AllRidesOffered, '/ridesoffered')
+api.add_resource(AllRidesOfferedID, '/ridesoffered/<int:ride_id>')
+api.add_resource(RidesOffered, '/users/<string:user_id>/ridesoffered')
+api.add_resource(RideOffered, '/users/<string:user_id>/ridesoffered/<int:ride_id>')
+api.add_resource(RidesTaken, '/users/<string:user_id>/ridestaken')
+api.add_resource(RideTaken, '/users/<string:user_id>/ridestaken/<int:ride_id>')
 
 
 #############################################################################

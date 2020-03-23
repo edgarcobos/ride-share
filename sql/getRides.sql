@@ -24,3 +24,12 @@ BEGIN
   SELECT * FROM rideOffered WHERE ride_id=ride_id_in;
 END //
 DELIMITER ;
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS getOfferedRidesByIDAndDriver //
+
+CREATE PROCEDURE getOfferedRidesByIDAndDriver(IN ride_id_in INT, IN driver_id_in VARCHAR(50))
+BEGIN
+  SELECT * FROM rideOffered WHERE ride_id=ride_id_in AND driver_id=driver_id_in;
+END //
+DELIMITER ;
