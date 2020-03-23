@@ -1,0 +1,7 @@
+#!/bin/bash
+
+read -p "username: " username
+read -p "first_name: " first_name
+read -p "last_name: " last_name
+
+curl -i -H "Content-Type: application/json" -X PUT -d '{"username": "'$username'", "first_name": "'$first_name'", "last_name": "'$last_name'"}' -b cookie-jar -k 'https://info3103.cs.unb.ca:40765/users/'$username
