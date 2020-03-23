@@ -273,9 +273,15 @@ class RidesTaken(Resource):
 
 	@use_db
 	def get(self, user_id, cursor):
-		cursor.callproc('getTakenRides', (user_id,))
-		rides = cursor.fetchall() or []
-		return make_response(jsonify({ 'rides': rides }), 200)
+		response = { 'status': 'Access denied' }
+		responseCode = 403
+
+		if session['username'] == user_id:
+			cursor.callproc('getTakenRides', (user_id,))
+			rides = cursor.fetchall() or []
+			response = { 'rides': rides }
+			responseCode = 200
+		return make_response(jsonify(response), responseCode)
 
 ####################################################################################
 #
@@ -285,9 +291,15 @@ class RideTaken(Resource):
 
 	@use_db
 	def get(self, user_id, ride_id, cursor):
-		cursor.callproc('getTakenRidesByID', (user_id, ride_id))
-		rides = cursor.fetchall() or []
-		return make_response(jsonify({ 'rides': rides }), 200)
+		response = { 'status': 'Access denied' }
+		responseCode = 403
+
+		if session['username'] == user_id:
+			cursor.callproc('getTakenRidesByID', (user_id, ride_id))
+			rides = cursor.fetchall() or []
+			response = { 'rides': rides }
+			responseCode = 200
+		return make_response(jsonify(response), responseCode)
 
 
 ####################################################################################
