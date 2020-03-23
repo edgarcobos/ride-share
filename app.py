@@ -9,7 +9,7 @@ from ldap3.core.exceptions import *
 import ssl
 import settings
 import pymysql.cursors
-from utils import use_db, get_user, get_ldapConnection, get_vals, uri, filter_user
+from utils import use_db, get_user, get_ldapConnection, get_vals, uri
 
 app = Flask(__name__)
 app.secret_key = settings.SECRET_KEY
@@ -97,6 +97,8 @@ class SignIn(Resource):
 	def delete(self):
 		if 'username' in session:
 			session.clear()
+		else:
+			abort(404)
 		return make_response(jsonify({ 'status': 'success' }), 200)
 
 
@@ -131,7 +133,7 @@ class Users(Resource):
 				ldapConnection.open()
 				ldapConnection.start_tls()
 				ldapConnection.bind()
-				
+								
 				cursor.callproc('addUser', get_vals(request_params, 'username', 'first_name', 'last_name'))
 				cursor.connection.commit()
 				user = cursor.fetchone()
@@ -150,7 +152,6 @@ class Users(Resource):
 	def get(self, cursor):
 		cursor.callproc('getUsers')
 		users = cursor.fetchall() or []
-		users = list(filter(filter_user, users))
 		for user in users:
 			user['uri'] = uri(request.url, user['user_id'])
 		return make_response(jsonify({ 'users': users }), 200)
@@ -164,9 +165,6 @@ class User(Resource):
 
 	@use_db
 	def get(self, user_id, cursor):
-		if 'username' not in session:
-			abort(401)
-		
 		response = { 'status': 'User does not exist' }
 		responseCode = 404
 
@@ -180,9 +178,7 @@ class User(Resource):
 
 	@use_db
 	def put(self, user_id, cursor):
-		if 'username' not in session:
-			abort(401)
-		elif not request.json:
+		if not request.json:
 			abort(400)
 		
 		parser = reqparse.RequestParser()
@@ -197,7 +193,7 @@ class User(Resource):
 		response = { 'status': 'Access denied' }
 		responseCode = 403
 
-		if session['user_id'] == user_id:
+		if session['username'] == user_id:
 			cursor.callproc('updateUser', get_vals(request_params, 'username', 'first_name', 'last_name'))
 			user = cursor.fetchone()
 			cursor.connection.commit()
@@ -209,14 +205,11 @@ class User(Resource):
 	
 	@use_db
 	def delete(self, user_id, cursor):
-		if 'username' not in session:
-			abort(401)
-		
 		response = { 'status': 'Access denied' }
 		responseCode = 403
 
-		if session['user_id'] == user_id:
-			cursor.callproc('deleteUser', (user_id))
+		if session['username'] == user_id:
+			cursor.callproc('deleteUser', (user_id,))
 			cursor.connection.commit()
 			session.clear()
 			response = { 'status': 'success' }

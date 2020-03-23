@@ -1,0 +1,5 @@
+#!/bin/bash
+
+read -p "username: " username
+
+curl -X GET -k 'https://info3103.cs.unb.ca:40765/users/'$username

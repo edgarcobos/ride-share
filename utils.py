@@ -8,10 +8,10 @@ from ldap3.core.exceptions import *
 def use_db(func):
     def wrapper(*args, **kwargs):
         try:
-            dbConnection = pymysql.connect(settings.DB_HOST,
-                                settings.DB_USER,
-                                settings.DB_PASSWD,
-                                settings.DB_DATABASE,
+            dbConnection = pymysql.connect(settings.MYSQL_HOST,
+                                settings.MYSQL_USER,
+                                settings.MYSQL_PASSWD,
+                                settings.MYSQL_DB,
                                 charset='utf8mb4',
                                 cursorclass=DictCursor)
             cursor = dbConnection.cursor()
@@ -25,7 +25,7 @@ def use_db(func):
     return wrapper
 
 def get_user(cursor, user_id):
-    cursor.callproc('getUserById', (user_id))
+    cursor.callproc('getUserById', (user_id,))
     return cursor.fetchone()
 
 def get_ldapConnection(username, password):
@@ -40,8 +40,3 @@ def get_vals(d, *args):
 
 def uri(url, id):
     return '{url}/{id}'.format(url=url, id=id)
-
-def filter_user(user):
-    if user['user_id'] in session:
-        return
-    return user
