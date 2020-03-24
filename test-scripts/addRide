@@ -1,0 +1,10 @@
+#!/bin/bash
+
+read -p "username: " username
+read -p "from_location: " from_location
+read -p "to_location: " to_location
+read -p "make_model: " make_model
+read -p "license_plate: " license_plate
+read -p "departure_time: " departure_time
+
+curl -i -H "Content-Type: application/json" -X POST -d '{"from_location": "'$from_location'", "to_location": "'$to_location'", "make_model": "'$make_model'", "license_plate": "'$license_plate'", "departure_time": "'$departure_time'"}' -b cookie-jar -k 'https://info3103.cs.unb.ca:40765/users/'$username'/ridesoffered'

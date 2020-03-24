@@ -320,8 +320,8 @@ class RideOffered(Resource):
 		responseCode = 403
 
 		#if session['username'] == user_id:
-		cursor.callproc('updateRide', ride_id, params['departure_time'])
-		ride = cursor.fetchone()
+		cursor.callproc('updateRide', (ride_id, params['departure_time']))
+		ride = cursor.fetchall() or []
 		cursor.connection.commit()
 		response = { 'ride': ride }
 		responseCode = 200
