@@ -296,11 +296,34 @@ class RideOffered(Resource):
 		response = { 'status': 'Access denied' }
 		responseCode = 403
 	
+		if session['username'] == user_id:
+			cursor.callproc('deleteRide', (user_id, ride_id))
+			cursor.connection.commit()
+			response = { 'status': 'success' }
+			responseCode = 200
+
+		return make_response(jsonify(response), responseCode)
+
+	@use_db
+	def put(self, user_id, ride_id, cursor):
+		if not request.json:
+			abort(400)
+		
+		parser = reqparse.RequestParser()
+		try:
+			parser.add_argument('departure_time', type=str, required=True)
+			params = parser.parse_args()
+		except:
+			abort(400)
+		
+		response = { 'status': 'Access denied' }
+		responseCode = 403
+
 		#if session['username'] == user_id:
-		cursor.callproc('deleteRide', (user_id, ride_id))
+		cursor.callproc('updateRide', ride_id, params['departure_time'])
+		ride = cursor.fetchone()
 		cursor.connection.commit()
-		session.clear()
-		response = { 'status': 'success' }
+		response = { 'ride': ride }
 		responseCode = 200
 
 		return make_response(jsonify(response), responseCode)
@@ -323,6 +346,29 @@ class RidesTaken(Resource):
 			responseCode = 200
 		return make_response(jsonify(response), responseCode)
 
+	@use_db
+	def post(self, user_id, cursor):
+		if not request.json:
+			abort(400)
+		
+		parser = reqparse.RequestParser()
+		try:
+			parser.add_argument('ride_id', type=str, required=True)
+			parser.add_argument('driver_id', type=str, required=True)
+			params = parser.parse_args()
+		except:
+			abort(400)
+
+		response = { 'status': 'Access denied' }
+		responseCode = 403
+		if session['username'] == user_id:
+			cursor.callproc('takeRide', (params['from_location'],params['to_location'],user_id))
+			cursor.connection.commit()
+			responseCode = 201
+			rides = cursor.fetchall() or []
+			response = { 'rides': rides }
+		return make_response(jsonify(response), responseCode)
+
 ####################################################################################
 #
 # RideTaken
@@ -339,6 +385,20 @@ class RideTaken(Resource):
 			rides = cursor.fetchall() or []
 			response = { 'rides': rides }
 			responseCode = 200
+		return make_response(jsonify(response), responseCode)
+
+	@use_db
+	def delete(self, user_id, ride_id, cursor):
+		response = { 'status': 'Access denied' }
+		responseCode = 403
+	
+		#if session['username'] == user_id:
+		cursor.callproc('deleteTakenRide', (user_id, ride_id))
+		cursor.connection.commit()
+		session.clear()
+		response = { 'status': 'success' }
+		responseCode = 200
+
 		return make_response(jsonify(response), responseCode)
 
 
