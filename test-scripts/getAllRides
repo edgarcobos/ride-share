@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -X GET -k https://info3103.cs.unb.ca:40765/ridesoffered

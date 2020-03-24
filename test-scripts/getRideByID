@@ -1,0 +1,5 @@
+#!/bin/bash
+
+read -p "ride_id: " ride_id
+
+curl -X GET -k 'https://info3103.cs.unb.ca:40765/ridesoffered/'$ride_id

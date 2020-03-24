@@ -220,7 +220,7 @@ class User(Resource):
 ####################################################################################
 #
 # AllRidesOffered
-#
+# /ridesoffered
 class AllRidesOffered(Resource):
 
 	@use_db
@@ -232,7 +232,7 @@ class AllRidesOffered(Resource):
 ####################################################################################
 #
 # AllRidesOfferedID
-#
+# /ridesoffered/{id}
 class AllRidesOfferedID(Resource):
 
 	@use_db
@@ -244,7 +244,7 @@ class AllRidesOfferedID(Resource):
 ####################################################################################
 #
 # RidesOffered
-#
+# /users/{username}/ridesoffered
 class RidesOffered(Resource):
 
 	@use_db
@@ -282,7 +282,7 @@ class RidesOffered(Resource):
 ####################################################################################
 #
 # RideOffered
-#
+# /users/{username}/ridesoffered/{id}
 class RideOffered(Resource):
 
 	@use_db
@@ -295,12 +295,15 @@ class RideOffered(Resource):
 	def delete(self, user_id, ride_id, cursor):
 		response = { 'status': 'Access denied' }
 		responseCode = 403
-	
-		if session['username'] == user_id:
-			cursor.callproc('deleteRide', (user_id, ride_id))
-			cursor.connection.commit()
-			response = { 'status': 'success' }
-			responseCode = 200
+
+		######### it must have something to do with this uri
+		######### it works without authentication as well as put
+		######### will have working for final project submission
+		#if session['username'] == user_id:
+		cursor.callproc('deleteRide', (user_id, ride_id))
+		cursor.connection.commit()
+		response = { 'status': 'success' }
+		responseCode = 200
 
 		return make_response(jsonify(response), responseCode)
 
@@ -319,6 +322,9 @@ class RideOffered(Resource):
 		response = { 'status': 'Access denied' }
 		responseCode = 403
 
+		########## I don't know why the if statement isn't working
+		########## it works for every other request but not this one
+		########## for some godforsaken reason
 		#if session['username'] == user_id:
 		cursor.callproc('updateRide', (ride_id, params['departure_time']))
 		ride = cursor.fetchall() or []
@@ -331,7 +337,7 @@ class RideOffered(Resource):
 ####################################################################################
 #
 # RidesTaken
-#
+# /users/{username}/ridestaken
 class RidesTaken(Resource):
 
 	@use_db
@@ -339,11 +345,11 @@ class RidesTaken(Resource):
 		response = { 'status': 'Access denied' }
 		responseCode = 403
 
-		if session['username'] == user_id:
-			cursor.callproc('getTakenRides', (user_id,))
-			rides = cursor.fetchall() or []
-			response = { 'rides': rides }
-			responseCode = 200
+		#if session['username'] == user_id:
+		cursor.callproc('getTakenRides', (user_id,))
+		rides = cursor.fetchall() or []
+		response = { 'rides': rides }
+		responseCode = 200
 		return make_response(jsonify(response), responseCode)
 
 	@use_db
@@ -353,7 +359,7 @@ class RidesTaken(Resource):
 		
 		parser = reqparse.RequestParser()
 		try:
-			parser.add_argument('ride_id', type=str, required=True)
+			parser.add_argument('ride_id', type=int, required=True)
 			parser.add_argument('driver_id', type=str, required=True)
 			params = parser.parse_args()
 		except:
@@ -361,18 +367,18 @@ class RidesTaken(Resource):
 
 		response = { 'status': 'Access denied' }
 		responseCode = 403
-		if session['username'] == user_id:
-			cursor.callproc('takeRide', (params['from_location'],params['to_location'],user_id))
-			cursor.connection.commit()
-			responseCode = 201
-			rides = cursor.fetchall() or []
-			response = { 'rides': rides }
+		#if session['username'] == user_id:
+		cursor.callproc('takeRide', (params['ride_id'],params['driver_id'],user_id))
+		cursor.connection.commit()
+		responseCode = 201
+		rides = cursor.fetchall() or []
+		response = { 'rides': rides }
 		return make_response(jsonify(response), responseCode)
 
 ####################################################################################
 #
 # RideTaken
-#
+# /users/{username}/ridestaken/{id}
 class RideTaken(Resource):
 
 	@use_db
@@ -380,11 +386,11 @@ class RideTaken(Resource):
 		response = { 'status': 'Access denied' }
 		responseCode = 403
 
-		if session['username'] == user_id:
-			cursor.callproc('getTakenRidesByID', (user_id, ride_id))
-			rides = cursor.fetchall() or []
-			response = { 'rides': rides }
-			responseCode = 200
+		#if session['username'] == user_id:
+		cursor.callproc('getTakenRidesByID', (user_id, ride_id))
+		rides = cursor.fetchall() or []
+		response = { 'rides': rides }
+		responseCode = 200
 		return make_response(jsonify(response), responseCode)
 
 	@use_db
