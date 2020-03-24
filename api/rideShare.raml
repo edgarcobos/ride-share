@@ -1,0 +1,296 @@
+#%RAML 1.0
+title: Ride Share
+version: 1
+baseUri: https://info3103.cs.unb.ca:40765
+types:
+  User:
+    properties:
+      user_id: string
+      first_name: string
+      last_name: string
+  RideOffered:
+    properties:
+      rideID: integer
+      from: string
+      to: string
+      makeModel: string
+      licensePlate: string
+      driverID: string
+      time: string
+  RideTaken:
+    properties:
+      rideID: integer
+      driverID: string
+      riderID: string
+  Error:
+    properties:
+      code: integer
+      message: string
+  Credentials:
+    properties:
+      username: string
+      password: string
+      user_id: integer 
+/users:
+  get:
+    description:
+      Lists all users matching query criteria, if provided;
+      otherwise lists all users
+    queryParameters:
+      name?: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: User[]
+            example:
+              [
+                {"userID" : "brogerso", "firstName" : "Braden", "lastName" : "Rogerson"},
+                {"userID" : "ecobos", "firstName" : "Edgar", "lastName" : "Cobos"}
+              ]
+  post:
+    description:
+      Creates a new user
+    body:
+      application/json:
+        type: User
+        example: {"userID" : 1, "firstName" : "Braden", "lastName" : "Rogerson", "phoneNum" : 1234567890, "email" : foo@bar.com}
+    responses:
+      201:
+        body:
+          application/json:
+            type: User
+            example: {"userID" : 1, "firstName" : "Braden", "lastName" : "Rogerson", "phoneNum" : 1234567890, "email" : foo@bar.com}
+  /{id}:
+    get:
+      description: Get a user by ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: User
+              example: {"userID" : 2, "firstName" : "Edgar", "lastName" : "Cobos", "phoneNum" : 0987654321, "email" : bar@foo.com}
+        404:
+          body:
+            application/json:
+              type: Error
+              example: {"message" : "Not found", "code" : 1001}
+    put:
+      description: Update a user by id
+      body:
+        application/json:
+          type: User
+          example: {"userID" : 2, "firstName" : "Edgar", "lastName" : "Cobos", "phoneNum" : 0987654321, "email" : bar@bar.com}
+      responses:
+        200:
+          body:
+            application/json:
+              type: User
+              example: {"userID" : 2, "firstName" : "Edgar", "lastName" : "Cobos", "phoneNum" : 0987654321, "email" : bar@bar.com}
+        404:
+          body:
+            application/json:
+              type: Error
+              example: {"message" : "Not found", "code" : 1001}
+    delete:
+      description: Delete a user by id
+      responses:
+        204:
+        404:
+          body:
+            application/json:
+              type: Error
+              example: {"message" : "Not found", "code" : 1001}
+    /ridesOffered:
+      get:
+        description:
+          Lists all rides offered by a user
+        responses:
+          200:
+            body:
+              application/json:
+                type: RideOffered[]
+                example:
+                  [
+                    {"rideID" : 1, "from" : "Head Hall", "to" : "Northside Market", "makeModel" : "2006 Ford Focus", "licensePlate" : "ABC123", "driverID" : 1, "time" : "March 2, 2:00pm"},
+                    {"rideID" : 2, "from" : "SUB", "to" : "Regent Mall", "makeModel" : "2018 Subaru Impreza", "licensePlate" : "123ABC", "driverID" : 2, "time" : "March 3, 3:00pm"}
+                  ]
+      post:
+        #must be done by the driver/whoevers ID is being used in the URI
+        description:
+          Creates a new ride
+        body:
+          application/json:
+            type: RideOffered
+            example: {"rideID" : 1, "from" : "Head Hall", "to" : "Northside Market", "makeModel" : "2006 Ford Focus", "licensePlate" : "ABC123", "driverID" : 1, "time" : "March 2, 2:00pm"}
+        responses:
+          201:
+            body:
+              application/json:
+                type: RideOffered
+                example: {"rideID" : 1, "from" : "Head Hall", "to" : "Northside Market", "makeModel" : "2006 Ford Focus", "licensePlate" : "ABC123", "driverID" : 1, "time" : "March 2, 2:00pm"}
+      /{id}:
+        #all actions under /users/{id}/ridesOffered/{id} must be performed by
+        #the user who's ID is in the URI
+        get:
+          description: Get a ride by ID
+          responses:
+            200:
+              body:
+                application/json:
+                  type: RideOffered
+                  example: {"rideID" : 2, "from" : "SUB", "to" : "Regent Mall", "makeModel" : "2018 Subaru Impreza", "licensePlate" : "123ABC", "driverID" : 2, "time" : "March 3, 3:00pm"}
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: {"message" : "Not found", "code" : 1001}
+        put:
+          description: Update a ride by id
+          body:
+            application/json:
+              type: RideOffered
+              example: {"rideID" : 2, "from" : "SUB", "to" : "Regent Mall", "makeModel" : "2018 Subaru Impreza", "licensePlate" : "123ABC", "driverID" : 2, "time" : "March 4, 4:00pm"}
+          responses:
+            200:
+              body:
+                application/json:
+                  type: User
+                  example: {"rideID" : 2, "from" : "SUB", "to" : "Regent Mall", "makeModel" : "2018 Subaru Impreza", "licensePlate" : "123ABC", "driverID" : 2, "time" : "March 4, 4:00pm"}
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: {"message" : "Not found", "code" : 1001}
+        delete:
+          description: Delete a ride by id
+          responses:
+            204:
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: {"message" : "Not found", "code" : 1001}
+    /ridesTaken:
+      #ridesTaken can only be looked at by the user who has taken those rides
+      #for security reasons
+      get:
+        description:
+          Lists all rides taken by a user
+        responses:
+          200:
+            body:
+              application/json:
+                type: RideTaken[]
+                example:
+                  [
+                    {"rideID": 4, "driverID" : 1, "riderID" : 2},
+                    {"rideID: 5, "driverID" : 2, "riderID" : 1}
+                  ]
+      post:
+        description:
+          Creates a new ride taken
+        body:
+          application/json:
+            type: RideTaken
+            example: {"rideID: 6, "driverID" : 3, "riderID" : 4}
+        responses:
+          201:
+            body:
+              application/json:
+                type: RideTaken
+                example: {"rideID: 6, "driverID" : 3, "riderID" : 4}
+      /{id}:
+        #all actions under /users/{id}/ridesTaken/{id} must be performed by
+        #the user who's ID is in the URI
+        get:
+          description: Get a ride by ID
+          responses:
+            200:
+              body:
+                application/json:
+                  type: RideTaken
+                  example: {"rideID: 6, "driverID" : 3, "riderID" : 4}
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: {"message" : "Not found", "code" : 1001}
+          delete:
+            description: Delete a user by id
+            responses:
+              204:
+              404:
+                body:
+                  application/json:
+                    type: Error
+                    example: {"message" : "Not found", "code" : 1001}
+/ridesOffered:
+  get:
+    description:
+      Lists all rides offered matching query criteria, if provided;
+      otherwise lists all rides offered
+    queryParameters:
+      startlocation?: string
+      endlocation?: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: RideOffered[]
+            example:
+              [
+                {"rideID" : 1, "from" : "Head Hall", "to" : "Northside Market", "makeModel" : "2006 Ford Focus", "licensePlate" : "ABC123", "driverID" : 1, "time" : "March 2, 2:00pm"},
+                {"rideID" : 2, "from" : "SUB", "to" : "Regent Mall", "makeModel" : "2018 Subaru Impreza", "licensePlate" : "123ABC", "driverID" : 2, "time" : "March 3, 3:00pm"}
+              ]
+  /{id}:
+    #put and delete must be performed by the driver of the rides
+    get:
+      description: Get a ride by ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: RideOffered
+              example: {"rideID" : 2, "from" : "SUB", "to" : "Regent Mall", "makeModel" : "2018 Subaru Impreza", "licensePlate" : "123ABC", "driverID" : 2, "time" : "March 3, 3:00pm"}
+        404:
+          body:
+            application/json:
+              type: Error
+              example: {"message" : "Not found", "code" : 1001}
+/signin:
+  #get and delete can only be performed by an admin of the website
+  get:
+    description:
+      Lists all users logged in matching query criteria, if provided;
+      otherwise lists all users logged in
+    queryParameters:
+      name?: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: Credentials[]
+            example:
+              [
+                {"username" : "brogerso", "password" : "hsdcb429!$^%@"},
+                {"username" : "ecobos", "password" : "fhsiabe$*@434y"}
+              ]
+  post:
+    description:
+      Logs in, starts a session and sets/returns a session cookie
+    body:
+      application/json:
+        {"username" : "brogerso", "password" : "hsdcb429!$^%@"}
+    responses:
+      204:
+  delete:
+    description:
+      Removes a session
+    responses:
+      204:
+      404:
+        body:
+          application/json:
+            type: Error
+            example: {"message" : "Not found", "code" : 1001}
