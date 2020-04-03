@@ -1,6 +1,6 @@
 #/usr/bin/env python
 APP_HOST = 'info3103.cs.unb.ca'
-APP_PORT =  40765
+APP_PORT =  8019
 APP_DEBUG = True
 
 MYSQL_HOST = 'localhost'
