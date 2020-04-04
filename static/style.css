@@ -6,12 +6,12 @@
 
 body {
 	/* background-image: url('img/spring.png'); */
-	background-color: azure;
+	background-color: #ccc;
 	font-family: 'Fira Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Life Savers', cursive;
+	/*font-family: 'Life Savers', cursive;*/
 }
 
 #display-title {
@@ -63,4 +63,32 @@ button.badge {
 	height: 41px;
 	text-align: center;
 	border-radius: 50%;
+}
+
+.btn-primary {
+	color: black;
+	background-color: #ffff33;
+	border-color: #ffff33;
+}
+
+.btn-primary:hover, .btn-outline-primary {
+	color: black;
+	background-color: white;
+	border-color: black;
+}
+
+.btn-outline-primary:hover {
+	color: black;
+	background-color: #ffff33;
+	border-color: black;
+}
+
+.btn-info {
+	background-color: black;
+	border-color: black;
+}
+
+.btn-info:hover {
+	background-color: gray;
+	border-color: gray;
 }
