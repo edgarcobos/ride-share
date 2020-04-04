@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Life+Savers');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Baloo+2');
 
 * {
 	transition: all 0.5s;
@@ -11,7 +11,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	/*font-family: 'Life Savers', cursive;*/
+	font-family: 'Baloo 2', cursive;
 }
 
 #display-title {
