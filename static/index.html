@@ -62,7 +62,7 @@
 									</div>
 									<div class="modal-footer">
 										<div id="edit-name-message" class="text-muted"></div>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 										<button type="submit" class="btn btn-primary">Submit</button>
 									</div>
 								</form>
@@ -99,7 +99,7 @@
 									</div>
 									<div class="modal-footer">
 										<div id="edit-ride-message" class="text-muted"></div>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 										<button type="submit" class="btn btn-primary">Submit</button>
 									</div>
 								</form>
@@ -225,8 +225,8 @@
 								<div class="card">
 									<div class="card-body">
 										<h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
-										<button class="btn btn-secondary" v-on:click="show_rides_taken(user.user_id, `${user.first_name} ${user.last_name}`)">Rides Taken</button>
-										<button class="btn btn-secondary" v-on:click="show_rides_offered(user.user_id, `${user.first_name} ${user.last_name}`)">Rides Offered</button>
+										<button class="btn btn-info" v-on:click="show_rides_taken(user.user_id, `${user.first_name} ${user.last_name}`)">Rides Taken</button>
+										<button class="btn btn-info" v-on:click="show_rides_offered(user.user_id, `${user.first_name} ${user.last_name}`)">Rides Offered</button>
 									</div>
 								</div>
 							</div>
