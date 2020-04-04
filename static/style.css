@@ -19,7 +19,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .jumbotron {
-	background-color: #fff;
+	background-color: #ccc;
 	border: solid 1px #ccc;
 }
 
@@ -71,13 +71,13 @@ button.badge {
 	border-color: #ffff33;
 }
 
-.btn-primary:hover, .btn-outline-primary {
+.btn-primary:hover, .btn-primary:active, .btn-outline-primary {
 	color: black;
 	background-color: white;
 	border-color: black;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover, .btn-outline-primary:active {
 	color: black;
 	background-color: #ffff33;
 	border-color: black;
@@ -88,7 +88,7 @@ button.badge {
 	border-color: black;
 }
 
-.btn-info:hover {
+.btn-info:hover, .btn-info:active {
 	background-color: gray;
 	border-color: gray;
 }
