@@ -13,8 +13,8 @@
 		
 		<!-- ========================================================== -->
 		<!-- FONT AWESOME  -->
-		<!-- ==========================================================
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
+		<!-- ========================================================== -->
+		<script src="https://kit.fontawesome.com/dfabd7fe66.js" crossorigin="anonymous"></script>
 
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -32,10 +32,10 @@
 			<div id="main-container" class="container">
 				<div class="row justify-content-center">
 
-					<div class="login-message-wrapper" v-if="login">
+					<div class="login-message-wrapper" v-if="!login">
 						<span><b>Hello</b> {{ user_name }}</span>
 						<button id="edit-name-btn" class="btn btn-primary" data-toggle="modal" data-target="#edit-name-dialog">
-							<i class="fas fa-edit"></i>
+							<i class="fas fa-user-edit"></i>
 						</button>
 					</div>
 
@@ -192,8 +192,8 @@
 											</p>
 										</li>
 										<li class="list-group-item"><b>ride ID:</b> {{ ride.ride_id }}</li>
-										<li class="list-group-item"><b>To:</b> {{ ride.to_user }}</li>
-										<li class="list-group-item"><b>From:</b> {{ ride.from_user }}</li>
+										<li class="list-group-item"><b>From:</b> {{ ride.from_location }}</li>
+										<li class="list-group-item"><b>To:</b> {{ ride.to_location }}</li>
 										<li class="list-group-item"><b>Price:</b> ${{ ride.price }}</li>
 										<li class="list-group-item bg-secondary text-light" v-if="ride.wishlisted">
 											<b>Wishlisted</b>
@@ -219,7 +219,7 @@
 					<div id="user-list" class="container-fluid col-lg-12 mt-5 d-none jumbotron" v-if="login">
 						<div class="row">
 							<div class="col-12">
-								<h2 class="display-5">User List</h2>
+								<h2 class="display-5">Users</h2>
 								<hr>
 							</div>
 							<div class="p-1 col-12 col-lg-6" v-for="user in users">
