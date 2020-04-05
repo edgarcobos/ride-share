@@ -130,7 +130,7 @@
 						<button class="btn btn-info mt-1" v-on:click="show_register_form">Register</button>
 					</div>
 
-					<div id="main-menu" class="col-12 col-lg-6 mt-5 d-flex flex-column jumbotron" v-if="login">
+					<div id="main-menu" class="col-12 col-lg-6 d-flex flex-column jumbotron" v-if="login">
 						<div class="btn-group btn-group-toggle mb-3 d-flex" data-toggle="buttons">
 							<label class="btn btn-outline-primary flex-grow-1" v-on:click="show_rides_taken(user_id, user_name)">
 								<input type="radio" name="options" id="option1" autocomplete="off">My Rides Taken
@@ -140,7 +140,7 @@
 							</label>
 						</div>
 						<a href="#" class="btn btn-outline-primary mb-3" v-on:click="show_ride_form">Offer Ride</a>
-						<a href="#" class="btn btn-outline-primary mb-3" v-on:click="show_users_list">Users</a>
+						<a href="#" class="btn btn-outline-primary" v-on:click="show_users_list">Users</a>
 					</div>
 
 					<div id="register-form" class="col-12 col-lg-6 d-none jumbotron">
@@ -213,7 +213,7 @@
 						</div>
 					</div>
 
-					<div id="user-list" class="container-fluid col-lg-12 mt-5 d-none jumbotron" v-if="login">
+					<div id="user-list" class="container-fluid col-lg-12 d-none jumbotron" v-if="login">
 						<div class="row">
 							<div class="col-12">
 								<h2 class="display-5">Users</h2>
@@ -231,7 +231,7 @@
 						</div>
 					</div>
 
-					<div id="ride-form" class="col-lg-12 mt-5 d-none jumbotron" v-if="login">
+					<div id="ride-form" class="col-lg-12 d-none jumbotron" v-if="login">
 						<h2 class="display-5">Offer ride</h2>
 						<hr>
 						<form action="#" v-on:submit="register_ride">
