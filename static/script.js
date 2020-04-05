@@ -207,7 +207,6 @@ var app=new Vue({
 			.then(function(response) {
 				let user = response.data.user;
 				app.user_name = `${user.first_name} ${user.last_name}`;
-				$('#edit-name-message').text('First and last names successfully edited!');
 			})
 			.catch(function(error) {
 				console.log('an error occurred');
