@@ -207,7 +207,18 @@ var app=new Vue({
 			.then(function(response) {
 				let user = response.data.user;
 				app.user_name = `${user.first_name} ${user.last_name}`;
-				$('#edit-name-message').text('First and last names successfully edited!');
+			})
+			.catch(function(error) {
+				console.log('an error occurred');
+			});
+		},
+		delete_user: function() {
+			let app = this;
+			axios.delete(`https://info3103.cs.unb.ca:8019/users/${app.user_id}`)
+			.then(function(response) {
+				app.login = false;
+				app.rides = [];
+				app.user_id = '';
 			})
 			.catch(function(error) {
 				console.log('an error occurred');
