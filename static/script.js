@@ -93,7 +93,6 @@ var app=new Vue({
 			});
 		},
 		show_rides: function(sent, user_id='') {
-			// check if user is logged in
 			let app = this;
 			user_id = !user_id ? app.user_id : user_id;
 			if (this.login) {
@@ -182,7 +181,7 @@ var app=new Vue({
 			this.clear_buttons();
 			$('#user-list').removeClass('d-none');
 		},
-		send_ride: function(ride) {
+		offer_ride: function(ride) {
 			let app = this;
 			data = { ride_id: ride.ride_id }
 			
