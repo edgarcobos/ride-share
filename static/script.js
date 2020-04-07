@@ -80,7 +80,8 @@ var app=new Vue({
 
 			axios.post('https://info3103.cs.unb.ca:8019/users', data)
 			.then(function (response) {
-				/*location.refresh();*/
+				app.login = true;
+				$('#register-form').addClass('d-none');
 			})
 			.catch(function(error) {
 				$('#login-input-2 + .invalid-feedback').show();

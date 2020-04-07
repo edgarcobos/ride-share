@@ -134,6 +134,8 @@ class Users(Resource):
 				ldapConnection.start_tls()
 				ldapConnection.bind()
 								
+				session['username'] = request_params['username']
+				
 				cursor.callproc('addUser', get_vals(request_params, 'username', 'first_name', 'last_name'))
 				cursor.connection.commit()
 				user = cursor.fetchone()
