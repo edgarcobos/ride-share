@@ -1,26 +1,22 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Life+Savers');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Baloo+2');
 
 * {
 	transition: all 0.5s;
 }
 
 body {
-	/* background-image: url('img/spring.png'); */
-	background-color: azure;
+	background-color: #ccc;
 	font-family: 'Fira Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Life Savers', cursive;
-}
-
-#display-title {
-	text-shadow: 2px 2px 10px #ccc;
+	font-family: 'Baloo 2', cursive;
 }
 
 .jumbotron {
-	background-color: #fff;
-	border: solid 1px #ccc;
+	background-color: #ccc;
+	margin: 0px;
+	padding-bottom: 32px;
 }
 
 @media only screen and (max-width: 780px) {
@@ -59,8 +55,36 @@ button.badge {
 }
 
 #edit-name-btn {
-	width: 41px;
-	height: 41px;
+	width: 40px;
+	height: 40px;
 	text-align: center;
 	border-radius: 50%;
+}
+
+.btn-primary {
+	color: black;
+	background-color: #ffff33;
+	border-color: #ffff33;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-outline-primary {
+	color: black;
+	background-color: white;
+	border-color: black;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active {
+	color: black;
+	background-color: #ffff33;
+	border-color: black;
+}
+
+.btn-info {
+	background-color: black;
+	border-color: black;
+}
+
+.btn-info:hover, .btn-info:active {
+	background-color: gray;
+	border-color: gray;
 }
