@@ -182,7 +182,7 @@
 										<li class="list-group-item"><b>To:</b> {{ ride.to_location }}</li>
 										<li class="list-group-item"><b>Price:</b> ${{ ride.price }}</li>
 										<li class="list-group-item bg-secondary text-light" v-if="ride.wishlisted">
-											<b>Wishlisted</b>
+											<b>Requested</b>
 											<button 
 												class="badge badge-warning float-right" 
 												v-on:click="offer_ride(ride)" 

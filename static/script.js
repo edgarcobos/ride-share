@@ -164,7 +164,7 @@ var app=new Vue({
 			let app = this;
 			data = { ride_id: ride.ride_id }
 			
-			axios.post('https://info3103.cs.unb.ca:8019/rides/actions/take', data)
+			axios.post(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/ridestaken`, data)
 			.then(function (response) {
 				ride.taken = true;
 			})
