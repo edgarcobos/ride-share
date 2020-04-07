@@ -2,4 +2,4 @@
 
 read -p "username: " username
 
-curl -i -H "Content-Type: application/json" -X DELETE -b cookie-jar -k 'https://info3103.cs.unb.ca:40765/users/'$username
+curl -i -H "Content-Type: application/json" -X DELETE -b cookie-jar -k 'https://info3103.cs.unb.ca:8019/users/'$username
