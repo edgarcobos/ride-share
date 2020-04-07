@@ -21,7 +21,7 @@
 				<div class="row justify-content-center">
 
 					<div class="login-message-wrapper" v-if="login">
-						<span><b>Hello</b> {{ user_name }}</span>
+						<span><b>Hello</b> {{ user_first }} {{ user_last }}</span>
 						<button id="edit-name-btn" class="btn btn-primary" data-toggle="modal" data-target="#edit-name-dialog">
 							<i class="fas fa-user-edit"></i>
 						</button>
@@ -31,7 +31,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="modal-title">Edit Name</h5>
+									<h5 class="modal-title" id="modal-title">Edit Account</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -41,18 +41,17 @@
 										
 											<div class="form-group">
 												<label for="edit-firstname-input">First Name</label>
-												<input id="edit-firstname-input" class="form-control" type="text">
+												<input id="edit-firstname-input" class="form-control" type="text" v-bind:value="user_first">
 											</div>
 											<div class="form-group">
 												<label for="edit-lastname-input">Last Name</label>
-												<input id="edit-lastname-input" class="form-control" type="text">
+												<input id="edit-lastname-input" class="form-control" type="text" v-bind:value="user_last">
 											</div>
 										
 									</div>
-									<div class="modal-footer">
-										<div id="edit-name-message" class="text-muted"></div>
-										<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-										<button type="submit" class="btn btn-primary">Submit</button>
+									<div class="modal-footer d-flex align-items-end flex-column">
+										<button class="btn btn-info" v-on:click="edit_name" data-dismiss="modal">Update</button>
+										<a href="#" class="btn btn-danger" v-on:click="delete_user" data-dismiss="modal">Delete User</a>
 									</div>
 								</form>
 							</div>
@@ -79,7 +78,7 @@
 											<input id="edit-ride-price-input" class="form-control" type="number" v-bind:value="ride_editing.price">
 										</div>
 										<div class="form-group" v-if="!(ride_editing.to_user == user_id && ride_editing.wishlisted)">
-											<label for="edit-ride-touser-input">To User <span class="text-muted">(don't forget this)</span></label>
+											<label for="edit-ride-touser-input">To User</label>
 											<select class="custom-select" id="edit-ride-touser-input">
 												<option selected></option>
 												<option v-for="user in users" >{{ user.user_id }}</option>
@@ -87,7 +86,6 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<div id="edit-ride-message" class="text-muted"></div>
 										<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 										<button type="submit" class="btn btn-primary">Submit</button>
 									</div>
@@ -154,7 +152,7 @@
 							<div class="form-group">
 								<label for="pw-input-2">Password</label>
 								<input id="pw-input-2" class="form-control" type="password">
-								<div class="invalid-feedback">Incorrect Password</div>
+								<div class="invalid-feedback">Incorrect password</div>
 							</div>
 							<button class="btn btn-primary">Submit</button>
 						</form>

@@ -4,7 +4,8 @@ var app=new Vue({
 		login: false,
 		rides: [],
 		user_id: '',
-		user_name: '',
+		user_first: '',
+		user_last: '',
 		users: [],
 		rides_title: 'Rides Received',
 		ride_editing: {}
@@ -22,7 +23,8 @@ var app=new Vue({
 			.then(function (response) {
 				app.login = true;
 				app.user_id = response.data.user.user_id;
-				app.user_name = response.data.user.first_name + ' ' + response.data.user.last_name;
+				app.user_first = response.data.user.first_name;
+				app.user_last = response.data.user.last_name;
 			})
 			.catch(function(error) {
 				console.log('user not logged in');
@@ -41,7 +43,8 @@ var app=new Vue({
 				app.login = true;
 				let u = response.data.user;
 				app.user_id = u.user_id;
-				app.user_name = u.first_name + ' ' + u.last_name;
+				app.user_first = u.first_name;
+				app.user_last = u.last_name;
 				app.show_main_menu();
 			})
 			.catch(function(error) {
@@ -67,25 +70,17 @@ var app=new Vue({
 			$('#register-form').removeClass('d-none');
 		},
 		register_user: function() {
-			let register_form = $('#register-form');
-			let first_name = register_form.find('#first_name-input').val();
-			let last_name = register_form.find('#lastname-input').val();
-			let username = register_form.find('#login-input-2').val();
-			let password = register_form.find('#pw-input-2').val();
-
+			let app = this;
 			let data = {
-				first_name: first_name,
-				last_name: last_name,
-				username: username,
-				password: password
+				first_name: $('#firstname-input').val(),
+				last_name: $('#lastname-input').val(),
+				username: $('#login-input-2').val(),
+				password: $('#pw-input-2').val()
 			}
 
 			axios.post('https://info3103.cs.unb.ca:8019/users', data)
 			.then(function (response) {
-				if (response.data['status'] == 'success') {
-					app.login = true;
-					$('#login-form').addClass('d-none');
-				}
+				/*location.refresh();*/
 			})
 			.catch(function(error) {
 				$('#login-input-2 + .invalid-feedback').show();
@@ -185,7 +180,7 @@ var app=new Vue({
 			let app = this;
 			data = { ride_id: ride.ride_id }
 			
-			axios.post('https://info3103.cs.unb.ca:8019/wishlist/actions/offer', data)
+			axios.post(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/ridesoffered', data)
 			.then(function (response) {
 				ride.from_user = app.user_id;
 			})
@@ -206,8 +201,20 @@ var app=new Vue({
 			axios.put(`https://info3103.cs.unb.ca:8019/users/${app.user_id}`, data)
 			.then(function(response) {
 				let user = response.data.user;
-				app.user_name = `${user.first_name} ${user.last_name}`;
-				$('#edit-name-message').text('First and last names successfully edited!');
+				app.user_first = `${user.first_name}`;
+				app.user_last = `${user.last_name}`;
+			})
+			.catch(function(error) {
+				console.log('an error occurred');
+			});
+		},
+		delete_user: function() {
+			axios.delete(`https://info3103.cs.unb.ca:8019/users/${app.user_id}`)
+			.then(function(response) {
+				app.login = false;
+				app.rides = [];
+				app.user_id = '';
+				$('#edit-ride-dialog').addClass('d-none');
 			})
 			.catch(function(error) {
 				console.log('an error occurred');
