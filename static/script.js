@@ -103,6 +103,21 @@ var app=new Vue({
 				});
 			}
 		},
+		show_rides2: function(sent, user_id='') {
+			let app = this;
+			if (app.login) {
+				q = sent ? '?sent=true' : '';
+				axios.get('https://info3103.cs.unb.ca:8019/users/' + user_id + '/ridestaken' + q)
+				.then(function (response) {
+					app.rides = response.data.rides;
+					app.clear_elements();
+					$('#rides').removeClass('d-none');
+				})
+				.catch(function(error) {
+					console.log('an error occurred');
+				});
+			}
+		},
 		show_rides_offered: function(user_id, name) {
 			let app = this;
 			app.rides_title = 'Rides Offered by ' + name;
@@ -111,7 +126,7 @@ var app=new Vue({
 		show_rides_taken: function(user_id, name) {
 			let app = this;
 			app.rides_title = 'Rides Taken by ' + name;
-			app.show_rides(false, user_id);
+			app.show_rides2(false, user_id);
 		},
 		show_ride_form: function() {
 			this.clear_elements();
@@ -120,7 +135,7 @@ var app=new Vue({
 		},
 		get_users: function() {
 			let app = this;
-			axios.get('https://info3103.cs.unb.ca:8014/users')
+			axios.get('https://info3103.cs.unb.ca:8019/users')
 			.then(function (response) {
 				app.users = response.data.users;
 			})
@@ -139,7 +154,6 @@ var app=new Vue({
 				to_location: ride_form.find('#to-input').val(),
 				make_model: ride_form.find('#make-input').val(),
 				license_plate: ride_form.find('#license-input').val(),
-				driver_id: app.user_id,
 				departure_time: ride_form.find('#time-input').val(),
 			}
 

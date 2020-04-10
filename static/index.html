@@ -110,10 +110,10 @@
 
 					<div id="main-menu" class="col-12 col-lg-6 d-flex flex-column jumbotron" v-if="login">
 						<div class="btn-group btn-group-toggle mb-3 d-flex" data-toggle="buttons">
-							<label class="btn btn-outline-primary flex-grow-1" v-on:click="show_rides_taken(user_id, user_name)">
+							<label class="btn btn-outline-primary flex-grow-1" v-on:click="show_rides_taken(user_id, user_first + ' ' + user_last)">
 								<input type="radio" name="options" id="option1" autocomplete="off">My Rides Taken
 							</label>
-							<label class="btn btn-outline-primary flex-grow-1" v-on:click="show_rides_offered(user_id, user_name)">
+							<label class="btn btn-outline-primary flex-grow-1" v-on:click="show_rides_offered(user_id, user_first + ' ' + user_last)">
 								<input type="radio" name="options" id="option2" autocomplete="off">My Rides Offered
 							</label>
 						</div>

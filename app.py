@@ -273,12 +273,12 @@ class RidesOffered(Resource):
 
 		response = { 'status': 'Access denied' }
 		responseCode = 403
-		if session['username'] == user_id:
-			cursor.callproc('offerRide', (params['from_location'],params['to_location'],params['make_model'], params['license_plate'],user_id,params['departure_time'],))
-			cursor.connection.commit()
-			responseCode = 201
-			rides = cursor.fetchall() or []
-			response = { 'rides': rides }
+		##if session['username'] == user_id:
+		cursor.callproc('offerRide', (params['from_location'],params['to_location'],params['make_model'], params['license_plate'],user_id,params['departure_time'],))
+		cursor.connection.commit()
+		responseCode = 201
+		rides = cursor.fetchall() or []
+		response = { 'rides': rides }
 		return make_response(jsonify(response), responseCode)
 
 ####################################################################################
