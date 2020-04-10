@@ -90,10 +90,9 @@ var app=new Vue({
 		},
 		show_rides: function(sent, user_id='') {
 			let app = this;
-			user_id = !user_id ? app.user_id : user_id;
-			if (this.login) {
+			if (app.login) {
 				q = sent ? '?sent=true' : '';
-				axios.get('https://info3103.cs.unb.ca:8019/users/' + user_id + '/rides' + q)
+				axios.get('https://info3103.cs.unb.ca:8019/users/' + user_id + '/ridesoffered' + q)
 				.then(function (response) {
 					app.rides = response.data.rides;
 					app.clear_elements();
@@ -121,7 +120,7 @@ var app=new Vue({
 		},
 		get_users: function() {
 			let app = this;
-			axios.get('https://info3103.cs.unb.ca:8019/users')
+			axios.get('https://info3103.cs.unb.ca:8014/users')
 			.then(function (response) {
 				app.users = response.data.users;
 			})
@@ -134,23 +133,22 @@ var app=new Vue({
 		register_ride: function() {
 			let app = this;
 			let ride_form = $('#ride-form');
-			let to = ride_form.find('#to-input option:selected').text();
-			let price = ride_form.find('#price-input').val();
-			let item_name = ride_form.find('#ridename-input').val();
 
 			let data = {
-				to: to,
-				price: price,
-				item_name: item_name
+				from_location: ride_form.find('#from-input').val(),
+				to_location: ride_form.find('#to-input').val(),
+				make_model: ride_form.find('#make-input').val(),
+				license_plate: ride_form.find('#license-input').val(),
+				driver_id: app.user_id,
+				departure_time: ride_form.find('#time-input').val(),
 			}
 
-			axios.post('https://info3103.cs.unb.ca:8019/users/'+app.user_id+'/rides', data)
+			axios.post('https://info3103.cs.unb.ca:8019/users/'+app.user_id+'/ridesoffered', data)
 			.then(function (response) {
 				$('#ride-form').addClass('d-none');
 			})
 			.catch(function(error) {
-				$('#login-input-2 + .invalid-feedback').show();
-				$('#pw-input-2 + .invalid-feedback').show();
+				$('#price_input + .invalid-feedback').show();
 			});
 		},
 		clear_elements: function() {
@@ -162,7 +160,8 @@ var app=new Vue({
 		},
 		confirm_ride_taken: function(ride) {
 			let app = this;
-			data = { ride_id: ride.ride_id }
+			data = { ride_id: ride.ride_id,
+					driver_id: ride.driver_id}
 			
 			axios.post(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/ridestaken`, data)
 			.then(function (response) {
@@ -177,18 +176,18 @@ var app=new Vue({
 			this.clear_buttons();
 			$('#user-list').removeClass('d-none');
 		},
-		offer_ride: function(ride) {
+		/*offer_ride: function(ride) {
 			let app = this;
 			data = { ride_id: ride.ride_id }
 			
-			axios.post(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/ridesoffered`, data)
+			axios.post(`https://info3103.cs.unb.ca:8014/users/${app.user_id}/ridesoffered`, data)
 			.then(function (response) {
 				ride.from_user = app.user_id;
 			})
 			.catch(function(error) {
 				console.log('an error occurred');
 			});
-		},
+		},*/
 		edit_name: function() {
 			let app = this;
 			let first_name = $('#edit-firstname-input').val();
@@ -223,25 +222,18 @@ var app=new Vue({
 		},
 		edit_ride: function() {
 			let app = this;
-			let ride_name = $('#edit-ride-name-input').val();
-			let ride_price = $('#edit-ride-price-input').val();
-			let ride_to_user = $('#edit-ride-touser-input option:selected').text();
-			ride_to_user = ride_to_user || app.user_id;
+			let departure_time = $('#edit-ride-time-input').val();
 			
 			let data = {
-				item_name: ride_name,
-				price: ride_price,
-				to: ride_to_user,
-				from: app.ride_editing.wishlisted ? null : app.user_id
+				departure_time: departure_time,
+				ride_id: app.ride_editing.ride_id
 			}
 
 			console.log(data);
 
-			axios.put(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/rides/${app.ride_editing.ride_id}`, data)
+			axios.put(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/ridesoffered/${app.ride_editing.ride_id}`, data)
 			.then(function(response) {
-				app.ride_editing.name = ride_name;
-				app.ride_editing.price = ride_price;
-				app.ride_editing.to_user = ride_to_user;
+				app.ride_editing.departure_time = departure_time;
 			})
 			.catch(function(error) {
 				console.log('an error occurred');
@@ -253,7 +245,7 @@ var app=new Vue({
 		},
 		delete_ride: function(ride) {
 			let app = this;
-			axios.delete(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/rides/${ride.ride_id}`)
+			axios.delete(`https://info3103.cs.unb.ca:8019/users/${app.user_id}/ridesoffered/${ride.ride_id}`)
 			.then(function(response) {
 				$(`#ride-${ride.ride_id}`).parent().remove();
 			})

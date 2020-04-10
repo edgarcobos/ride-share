@@ -70,19 +70,8 @@
 								<form action="#" v-on:submit="edit_ride">
 									<div class="modal-body">
 										<div class="form-group">
-											<label for="edit-ride-name-input">Ride Name/Description</label>
-											<input id="edit-ride-name-input" class="form-control" type="text" v-bind:value="ride_editing.name">
-										</div>
-										<div class="form-group">
-											<label for="edit-ride-price-input">Ride Price</label>
-											<input id="edit-ride-price-input" class="form-control" type="number" v-bind:value="ride_editing.price">
-										</div>
-										<div class="form-group" v-if="!(ride_editing.to_user == user_id && ride_editing.wishlisted)">
-											<label for="edit-ride-touser-input">To User</label>
-											<select class="custom-select" id="edit-ride-touser-input">
-												<option selected></option>
-												<option v-for="user in users" >{{ user.user_id }}</option>
-											</select>
+											<label for="edit-ride-time-input">Ride Time</label>
+											<input id="edit-ride-time-input" class="form-control" type="text" v-bind:value="ride_editing.departure_time">
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -168,33 +157,26 @@
 								<div v-bind:id="'ride-'+ride.ride_id" class="card">
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">
-											<b>ride:</b> {{ ride.name }}
+											<b>ride:</b> {{ ride.ride_id }}
 											<p class="mb-0">
 												<span class="badge badge-warning" v-if="ride.taken">Received</span>
 												<button 
-													class="receive-btn badge badge-info" 
-													v-else-if="ride.to_user == user_id && ride.from_user" 
+													class="receive-btn badge badge-info"
 													v-on:click="confirm_ride_taken(ride)">Take Ride</button>
 											</p>
 										</li>
-										<li class="list-group-item"><b>ride ID:</b> {{ ride.ride_id }}</li>
+										<li class="list-group-item"><b>Ride ID:</b> {{ ride.ride_id }}</li>
 										<li class="list-group-item"><b>From:</b> {{ ride.from_location }}</li>
 										<li class="list-group-item"><b>To:</b> {{ ride.to_location }}</li>
-										<li class="list-group-item"><b>Price:</b> ${{ ride.price }}</li>
-										<li class="list-group-item bg-secondary text-light" v-if="ride.wishlisted">
-											<b>Requested</b>
-											<button 
-												class="badge badge-warning float-right" 
-												v-on:click="offer_ride(ride)" 
-												v-if="ride.to_user != user_id && !ride.from_user">Offer</button>
-											<span class="badge badge-info float-right" v-else-if="ride.from_user == user_id">Offered!</span>
-										</li>
+										<li class="list-group-item"><b>Make/Model:</b> ${{ ride.make_model }}</li>
+										<li class="list-group-item"><b>License Plate:</b> ${{ ride.license_plate }}</li>
+										<li class="list-group-item"><b>Driver ID:</b> {{ ride.driver_id }}</li>
+										<li class="list-group-item"><b>Time:</b> {{ ride.departure_time }}</li>
 										<li 
 										class="list-group-item" 
-										v-if="(!ride.taken) && ((ride.to_user == user_id && ride.wishlisted) || (ride.from_user == user_id && !ride.wishlisted))">
-											<button class="btn btn-primary" v-on:click="set_editing_ride(ride)"
-											data-toggle="modal" data-target="#edit-ride-dialog">Edit ride</button>
-											<button class="btn btn-warning" v-if="ride.from_user && !ride.taken && !ride.wishlisted" v-on:click="delete_ride(ride)">Delete</button>
+										v-if="user_id == ride.driver_id">
+											<button class="btn btn-primary" v-on:click="set_editing_ride(ride)" data-toggle="modal" data-target="#edit-ride-dialog">Edit ride</button>
+											<button class="btn btn-warning" v-if="user_id == ride.driver_id" v-on:click="delete_ride(ride)">Delete</button>
 										</li>
 									</ul>
 								</div>
@@ -225,20 +207,24 @@
 						<hr>
 						<form action="#" v-on:submit="register_ride">
 							<div class="form-group">
-								<label for="to-input">From Location</label>
+								<label for="from-input">From Location</label>
 								<input id="price-input" class="form-control" type="text">								
 							</div>
 							<div class="form-group">
-								<label for="ridename-input">Ride Time</label>
-								<input id="ridename-input" class="form-control" type="text">
+								<label for="to-input">To Location</label>
+								<input id="to-input" class="form-control" type="text">								
 							</div>
 							<div class="form-group">
-								<label for="to-input">To Location</label>
-								<select class="custom-select" id="to-input">
-									<option selected></option>
-									<option>Sobeys</option>
-									<option>Head Hall</option>
-								</select>
+								<label for="make-input">Make/Model</label>
+								<input id="make-input" class="form-control" type="text">								
+							</div>
+							<div class="form-group">
+								<label for="license-input">License Plate</label>
+								<input id="license-input" class="form-control" type="text">								
+							</div>
+							<div class="form-group">
+								<label for="time-input">Ride Time</label>
+								<input id="time-input" class="form-control" type="text">
 							</div>
 							<button class="btn btn-primary">Submit</button>
 						</form>
