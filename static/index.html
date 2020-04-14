@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="style.css">
+	    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="style.css">-->
 		
 		<script src="https://kit.fontawesome.com/dfabd7fe66.js" crossorigin="anonymous"></script>
 
@@ -75,8 +75,7 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-										<button type="submit" class="btn btn-primary">Submit</button>
+										<button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
 									</div>
 								</form>
 							</div>
@@ -159,9 +158,9 @@
 										<li class="list-group-item">
 											<b>ride:</b> {{ ride.ride_id }}
 											<p class="mb-0">
-												<span class="badge badge-warning" v-if="ride.taken">Received</span>
+												<span class="badge badge-warning" v-if="ride.taken">Taken</span>
 												<button 
-													class="receive-btn badge badge-info"
+													class="receive-btn badge badge-dark"
 													v-on:click="confirm_ride_taken(ride)">Take Ride</button>
 											</p>
 										</li>
@@ -176,7 +175,7 @@
 										class="list-group-item" 
 										v-if="user_id == ride.driver_id">
 											<button class="btn btn-primary" v-on:click="set_editing_ride(ride)" data-toggle="modal" data-target="#edit-ride-dialog">Edit ride</button>
-											<button class="btn btn-warning" v-if="user_id == ride.driver_id" v-on:click="delete_ride(ride)">Delete</button>
+											<button class="btn btn-danger" v-if="user_id == ride.driver_id" v-on:click="delete_ride(ride)">Delete</button>
 										</li>
 									</ul>
 								</div>
@@ -226,7 +225,7 @@
 								<label for="time-input">Ride Time</label>
 								<input id="time-input" class="form-control" type="text">
 							</div>
-							<button class="btn btn-primary">Submit</button>
+							<button class="btn btn-primary">Offer</button>
 						</form>
 					</div>
 				</div>
