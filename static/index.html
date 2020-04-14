@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="style.css">-->
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="style.css">
 		
 		<script src="https://kit.fontawesome.com/dfabd7fe66.js" crossorigin="anonymous"></script>
 
@@ -75,7 +75,7 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+										<button type="submit" class="btn btn-info" data-dismiss="modal">Update</button>
 									</div>
 								</form>
 							</div>
@@ -146,7 +146,7 @@
 						</form>
 					</div>
 
-					<div id="rides" class="container-fluid col-lg-12 mt-5 d-none jumbotron" v-if="login">
+					<div id="rides" class="container-fluid col-lg-12 d-none jumbotron" v-if="login">
 						<div class="row">
 							<div class="col-12">
 								<h2 class="display-5">{{ rides_title }}</h2>
@@ -160,21 +160,21 @@
 											<p class="mb-0">
 												<span class="badge badge-warning" v-if="ride.taken">Taken</span>
 												<button 
-													class="receive-btn badge badge-dark"
+													class="receive-btn badge badge-primary"
 													v-on:click="confirm_ride_taken(ride)">Take Ride</button>
 											</p>
 										</li>
 										<li class="list-group-item"><b>Ride ID:</b> {{ ride.ride_id }}</li>
 										<li class="list-group-item"><b>From:</b> {{ ride.from_location }}</li>
 										<li class="list-group-item"><b>To:</b> {{ ride.to_location }}</li>
-										<li class="list-group-item"><b>Make/Model:</b> ${{ ride.make_model }}</li>
-										<li class="list-group-item"><b>License Plate:</b> ${{ ride.license_plate }}</li>
+										<li class="list-group-item"><b>Make/Model:</b> {{ ride.make_model }}</li>
+										<li class="list-group-item"><b>License Plate:</b> {{ ride.license_plate }}</li>
 										<li class="list-group-item"><b>Driver ID:</b> {{ ride.driver_id }}</li>
 										<li class="list-group-item"><b>Time:</b> {{ ride.departure_time }}</li>
 										<li 
 										class="list-group-item" 
 										v-if="user_id == ride.driver_id">
-											<button class="btn btn-primary" v-on:click="set_editing_ride(ride)" data-toggle="modal" data-target="#edit-ride-dialog">Edit ride</button>
+											<button class="btn btn-info" v-on:click="set_editing_ride(ride)" data-toggle="modal" data-target="#edit-ride-dialog">Edit ride</button>
 											<button class="btn btn-danger" v-if="user_id == ride.driver_id" v-on:click="delete_ride(ride)">Delete</button>
 										</li>
 									</ul>

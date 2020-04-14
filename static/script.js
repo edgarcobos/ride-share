@@ -7,7 +7,7 @@ var app=new Vue({
 		user_first: '',
 		user_last: '',
 		users: [],
-		rides_title: 'Rides Received',
+		rides_title: 'Rides Taken',
 		ride_editing: {}
 	},
 
@@ -168,6 +168,7 @@ var app=new Vue({
 		clear_elements: function() {
 			$('div[id$="-form"]').addClass('d-none');
 			$('div[id$="-list"]').addClass('d-none');
+			$('#rides').addClass('d-none');
 		},
 		clear_buttons: function() {
 			$('label.active').removeClass('active');
@@ -190,18 +191,6 @@ var app=new Vue({
 			this.clear_buttons();
 			$('#user-list').removeClass('d-none');
 		},
-		/*offer_ride: function(ride) {
-			let app = this;
-			data = { ride_id: ride.ride_id }
-			
-			axios.post(`https://info3103.cs.unb.ca:8014/users/${app.user_id}/ridesoffered`, data)
-			.then(function (response) {
-				ride.from_user = app.user_id;
-			})
-			.catch(function(error) {
-				console.log('an error occurred');
-			});
-		},*/
 		edit_name: function() {
 			let app = this;
 			let first_name = $('#edit-firstname-input').val();
